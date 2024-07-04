@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<!-- 存在しないクラスが更新処理で入力されたときにアラートが発生。  -->
+	<th:block th:if="${no == 'no'}">
+	<script type="text/javascript" src="js/mym_user.js"></script>
+	</th:block>
+	<style>
+		table{
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- クラスを完全一致で検索するフォーム  -->
+	<h1>クラス検索</h1>
+	<form th:action="@{/classSer}" method="POST">
+		<input type="text" name="cls"  placeholder="クラス検索">
+		<input type="submit" value="検索">
+	</form>
+	<!-- 生徒を部分一致検索するフォーム  -->
+	<h1>生徒名検索</h1>
+	<form th:action="@{/nameSer}" method="POST">
+		<input type="text" name="name"  placeholder="生徒名検索">
+		<input type="submit" value="検索">
+	</form>
+	<!-- 更新するクラスを入力するフォーム  -->
+	<h1>クラス更新</h1>
+	<form th:action="@{/classupd}" method="POST">
+		<input type="text" name="upd"  placeholder="更新したいクラス">
+		<input type="text" name="id1"  placeholder="最初の学籍番号">
+		<input type="text" name="id2"  placeholder="最後の学籍番号">
+		<input type="submit" value="更新">
+	</form>
+	<!-- 更新するクラスを間違えたときに1学年下げる用のフォーム※卒業生にしてしまった場合に戻せるのは直前のクラスのみなので気づいたらすぐに戻すべし！  -->
+	<h1>クラスを戻す</h1>
+	<form th:action="@{/classreturn}" method="POST">
+		<input type="text" name="returns"  placeholder="更新したいクラス">
+		<input type="text" name="id3"  placeholder="最初の学籍番号">
+		<input type="text" name="id4"  placeholder="最後の学籍番号">
+		<input type="submit" value="戻す">
+	</form>
+	<th:block th:if="${class != null}">
+		<p th:text="${class + 'クラスが更新されました。'}"></p>
+	</th:block>
+	<p th:text="${record + '件のレコードを取得しました。'}"></p>
+	<hr>
+	<!-- テーブル表示 -->
+	<table border="1">
+		<tr>
+		<!-- 列名を指定 -->
+		<th>user_id</th>
+		<th>user_name</th>
+		<th>password</th>
+		<th>authority</th>
+		<th>class</th>
+		<th>student_no</th>
+		<th>school</th>
+		</tr>
+		<!-- 検索や更新処理の結果表示 -->
+		<tr th:each="upd : ${kensakupra}">
+			<td><p th:text="${upd.user_id}"></p></td>
+			<td><p th:text="${upd.user_name}"></p></td>
+			<td><p th:text="${upd.password}"></p></td>
+			<td><p th:text="${upd.authority}"></p></td>
+			<td><p th:text="${upd.class}"></p></td>
+			<td><p th:text="${upd.student_no}"></p></td>
+			<td><p th:text="${upd.school}"></p></td>
+		</tr>
+		
+	</table>
+</body>
+
+</html>

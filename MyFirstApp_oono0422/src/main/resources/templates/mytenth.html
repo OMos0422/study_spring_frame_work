@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>画面レイアウト切替</title>
+	<th:block th:if="${inputPass == 'black'}">
+		<link rel="stylesheet" type="text/css" href="css/mytenthbk.css">
+	</th:block>
+
+	<th:block th:if="${inputPass == 'white'}">
+		<link rel="stylesheet" type="text/css" href="css/mytenthwh.css">
+	</th:block>
+
+	<th:block th:if="${inputPass == 'green'}">
+		<link rel="stylesheet" type="text/css" href="css/mytenthgr.css">
+	</th:block>
+
+
+</head>
+
+<body>
+
+	<div class="container">
+		<form th:action="@{/tenthpage}" method="POST">
+			<input type="text" class="input-field" name="password" placeholder="ここにパスワードを入力して下さい。">
+			<input type="submit">
+		</form>
+	</div>
+	<th:block th:if="${inputPass == 'ログイン'}">
+		<div class="container">
+			<form th:action="@{/tenthpage}" method="POST">
+				<input type="text" class="input-field" name="id" placeholder="ID">
+				<input type="text" class="input-field" name="pass" placeholder="PASSWORD">
+				<input type="submit">
+			</form>
+		</div>
+	</th:block>
+	<th:block th:if="${inputPass == '占い'}">
+		<p>今日の運勢は大吉です！</p>
+	</th:block>
+	<th:block th:if="${inputPass == '国際理工'}">
+		<p><a href="https://www.itc.ac.jp/">https://www.itc.ac.jp/</a></p>
+	</th:block>
+</body>
+
+</html>

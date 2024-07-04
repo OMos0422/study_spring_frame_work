@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="css/mysecond.css">
+	<script type="text/javascript" src="js/mykadai.js"></script>
+	<style>
+		a:link {
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+
+	ホーム<br>
+
+	ようこそ<p th:text="${username}"></p>さん
+
+	<form th:action="@{userHome}" method="POST">
+		つぶやく <input type="text" name="tweet"><br>
+		<input type="submit" value="投稿">
+	</form>
+	<hr>
+	投稿内容を表示
+	<p th:text="${tweet}"></p>
+
+	<hr>
+	<a id="link" href="http://localhost:8080/userLogin">ログインページへ戻る！</a>
+
+</body>
+
+</html>

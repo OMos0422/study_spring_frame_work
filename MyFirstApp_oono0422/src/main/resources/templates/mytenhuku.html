@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h2>
+		<第10回復習問題(第9回の復習)>
+	</h2>
+	<hr>
+
+	<h4>サンプル①</h4>
+	<h5>th:textのサンプル。Controllerでmodelに「sample1」という名前でしまわれたデータを表示</h5>
+
+	<p th:text="${sample1}"></p>
+
+	<h4>サンプル②</h4>
+	<h5>th:block th:ifのサンプル。Controllerでmodelに「sample2」という名前でしまわれたデータが「2個目」か？をifで検証</h5>
+
+	<th:block th:if="${sample2 == '2個目'}">
+		<h6>sample2の値は「2個目」でした。</h6>
+	</th:block>
+
+	<h4>サンプル③</h4>
+	<h5>th:eachのサンプル。Controllerでmodelに「samplelist」という名前でしまったリストの全件表示</h5>
+	<ul>
+		<li th:each="listitem : ${samplelist}">
+			<p th:text="${listitem}"></p>
+		</li>
+	</ul>
+
+
+
+
+
+	<h4>復習問題①</h4>
+	<h5>Controllerでmodelにしまわれた変数を表示しよう！</h5>
+
+	<!--この辺に1問目のプログラム書いてね～～～-->
+	<p th:text="${mondaione}"></p>
+
+
+	<hr>
+	<h4>復習問題②</h4>
+	<h5>もしもmodelにしまわれた変数「mondaitwo」の値が「2問目」なら、h4タグで「2問目だった」と表示しよう。</h5>
+
+	<!--この辺に2問目のプログラム書いてね～～～-->
+	<th block th:if="${mondaitwo == '2問目'}">
+		<h4>２問目だった</h4>
+	</th:if>
+
+	<hr>
+	<h4>復習問題③</h4>
+	<h5>Controllerでmodelにしまわれているリスト「resultList」の中身を全件表示しよう。<br>
+		尚、eachの中で使う変数名は「itemhuku」とする事
+	</h5>
+
+	<!--この辺に3問目のプログラム書いてね～～～-->
+	<ul>
+		<li th:each="itemtenhuku : ${resultList}">
+			<p th:text="${itemtenhuku}"></p>
+		</li>
+	</ul>
+	<hr>
+</body>
+
+</html>

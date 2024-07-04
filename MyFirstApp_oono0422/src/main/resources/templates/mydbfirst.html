@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h5>検索結果一覧</h5>
+	<ul>
+		<li th:each="singledata : ${kensakukekka}">
+			<p th:text="${singledata.name + ' : ' + singledata.hobby}"></p>
+		</li>
+	</ul>
+	
+	<hr>
+	<h5>練習問題</h5>
+	
+	<form th:action="@{/mydbfirstpra}" method="POST">
+		<input type="text" name="kensaku2">
+		<input type="submit" value ="検索">
+	</form>
+	<ul>
+		<li th:each="singledata2 : ${kensaku}">
+			<p th:text="${singledata2.name+  ' : ' +singledata2.hobby}"></p>
+		</li>
+	</ul>
+	<!--↓文法のテンプレです。答えではないよ -->
+	<ul>
+		<li th:each="singledata : ${kensakupra}">
+			<p th:text="${singledata.title+ ' : ' + singledata.price+ ' : ' +singledata.category}"></p>
+		</li>
+	</ul>
+	
+	<h5>応用問題</h5>
+	<table>
+		<tr>
+			<th>商品名</th>
+			<th>価格</th>
+			<th>カテゴリ</th>
+		</tr>
+		<tr  th:each="singledata3 : ${kensakupra}">
+			<td><p  th:text="${singledata3.title}"></p></td>
+			<td><p  th:text="${singledata3.price}"></p></td>
+			<td><p th:text="${singledata3.category}"></p></td>
+		</tr>
+	</table>
+</body>
+
+</html>

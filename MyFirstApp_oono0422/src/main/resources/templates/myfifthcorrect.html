@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+
+俺を・・・修正してくれっ・・・・！（練習問題⑧）
+<hr>
+	<form th:action="@{/fifthcor}" method="POST">
+		デバッグ担当者の名前
+		<input type="text" name="debuggerName"><br>
+		<input type="submit" value="送信">
+	</form>
+	
+	テストの結果は…
+	<p th:text="${uhouho}"></p>
+	です。
+</body>
+
+</html>

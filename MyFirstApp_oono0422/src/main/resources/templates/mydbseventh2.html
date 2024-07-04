@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h3>第3回制作課題</h3>
+	<h4>＜変更する予約情報を入力してください＞</h4>
+	<form th:action="@{/sheetUpd}" method="POST">
+		<input type="text" name="num" placeholder="予約番号">
+		<input type="submit" value="更新" >
+	</form>
+	<h4>＜削除する予約情報を入力してください＞</h4>
+	<form th:action="@{/sheetDel}" method="POST">
+		<input type="text" name="num" placeholder="予約番号">
+		<input type="submit" value="削除" >
+	</form>
+	<p></p>
+	<form th:action="@{/sheetlogout}" method="POST">
+		<input type="submit" value="ログアウト">
+	</form>
+	<p></p>
+	<a href="/sheetreserv">登録画面へ</a>
+	<p></p>
+	<a href="/sheetmypage">マイページへ</a>	
+
+</body>
+
+</html>

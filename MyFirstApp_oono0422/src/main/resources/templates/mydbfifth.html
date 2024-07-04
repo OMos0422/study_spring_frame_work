@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<th:block th:if="${no == 'no'}">
+	<script type="text/javascript" src="js/myyoyaku.js"></script>
+	</th:block>
+	<style>
+		table{
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>予約サイトへようこそ！</h1>
+	<form th:action="@{/yoyaku}" method="POST">
+		<input type="text" name="yoyaku" minlength="2" placeholder="予約しよう！">
+		<input type="submit" value="開始!">
+	</form>
+	<th:block th:if="${session.yoyaku == '予約'}">
+	<h1>予約処理</h1>
+	<form th:action="@{/yoyakuIns}" method="POST">
+		<input type="text" name="yoyakubi" placeholder="予約日 1/1">
+		<input type="text" name="yoyakuclass" placeholder="予約クラス 1A">
+		<input type="text" name="yoyakuname" placeholder="予約者名">
+		<input type="text" name="yoyakucoat" placeholder="バスケ or バレー">
+		<input type="submit" value="登録">
+	</form>
+	<hr>
+	<h1>予約更新処理</h1>
+	<form th:action="@{/yoyakuUpd}" method="POST">
+		<input type="text" name="upd" placeholder="更新後予約日 1/1">
+		<input type="text" name="yoyakuname" placeholder="予約者名">
+		<input type="text" name="yoyakubi" placeholder="更新する予約日 1/1">
+		<input type="submit" value="更新">
+	</form>
+	<hr>
+	<h1>予約削除処理</h1>
+	<form th:action="@{/yoyakuDel}" method="POST">
+		<input type="text" name="yoyakuname" placeholder="予約者名">
+		<input type="text" name="yoyakubi" placeholder="予約日 1/1">
+		<input type="submit" value="削除">
+	</form>
+	<hr>
+	</th:block>
+	<table border="1">
+		<tr>
+		<th>予約日</th><th>予約クラス</th><th>予約者名</th><th>予約コート</th>
+		</tr>
+		<tr th:each="yoyaku : ${kensakupra}">
+			<td><p th:text="${yoyaku.yoyakubi}"></p></td>
+			<td><p th:text="${yoyaku.yoyakuclass}"></p></td>
+			<td><p th:text="${yoyaku.yoyakuname}"></p></td>
+			<td><p th:text="${yoyaku.yoyakucoat}"></p></td>
+		</tr>
+		
+	</table>
+</body>
+
+</html>

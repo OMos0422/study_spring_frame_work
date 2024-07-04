@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<h4>第11回 model&sessionについて</h4>
+	<h4>1ページ目</h4>
+	<h3>モデルにしまったデータ</h3>
+	<p th:text="${modelData}"></p>
+	<div class="container">
+		<form th:action="@{/elevenpageone}" method="POST">
+			<input type="text" class="input-field" name="id" placeholder="ここにIDを入力して下さい。">
+			<input type="text" class="input-field" name="pass" placeholder="ここにパスワードを入力して下さい。">
+			<input type="submit">
+		</form>
+	</div>
+	<p th:text="${session.userDataId}"></p>
+	<h3>セッションにしまったデータ</h3>
+	<p th:text="${session.sessionData}"></p>
+	
+	<a href="http://localhost:8080/elevenpagetwo">2ページ目に移動</a>
+	
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form th:action="@{/fourthpage}" method="POST">
+	名前を入力してね～
+	<input type="text" name="param1">
+	趣味
+	<input type ="text" name="hobby">
+	出身
+	<input type ="text" name="bplace">
+    <input type="submit" value="送信">
+</form>
+
+
+お前の名前は<p th:text="${userName}"></p>だな！<br>
+趣味は<p th:text="${userHobby}"></p>だな！<br>
+あなたの出身地は<p th:text="${bp}"></p>だね？
+
+</body>
+</html>

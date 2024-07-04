@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h4>ここから今日の内容</h4>
+	
+	検索するデータを入力してね(日本語で検索する。)
+	<form th:action="@{/mydbsecond}" method="POST">
+		日本語<input type="text" name="searchWordJp">
+		<input type="submit">
+	</form>
+	<br>
+	【慣れよう問題】検索するデータを入力してね(英訳で検索する。)
+	<form th:action="@{/mydbsecond}" method="POST">
+		英訳<input type="text" name="searchWordEn">
+		<input type="submit">
+	</form>
+	<br>
+	【練習問題用】検索するデータを入力してね(日本語 or 英訳で検索する。)
+	<form th:action="@{/mydbsecond}" method="POST">
+		日本語<input type="text" name="searchWordJp">
+		英訳<input type="text" name="searchWordEn">
+		<input type="submit">
+	</form>
+	
+	
+	<h4>↓検索結果↓</h4>
+	<table>
+		<tr>
+			<th>日本語</th>
+			<th>英訳</th>
+		</tr>
+		<tr th:each="singledata:${kensakupraSecond}">
+			<td><p th:text=${singledata.nihongo}></p></td>
+			<td><p th:text=${singledata.eiyaku}></p></td>
+		</tr>
+	</table>
+	
+	<hr>
+	<h5>データ登録</h5>
+	【データ登録】登録するデータを入力してね。
+	<form th:action="@{/mydbsecondIns}" method="POST">
+		日本語<input type="text" name="inputWordJp">
+		英訳<input type="text" name="inputWordEn">
+		<input type="submit">
+	</form>
+</body>
+
+</html>

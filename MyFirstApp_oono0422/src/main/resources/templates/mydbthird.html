@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h4>データ更新とデータ削除</h4>
+	
+	【データ更新】更新情報を入力してね<br>
+	
+	<form th:action="@{/mydbthirdhukuUpd}" method="POST">
+		
+		更新対象を指定（名前）<input type="text" name="animalnamebefore"><br>
+		
+		変更後の名前を指定<input type="text" name="animalnameafter">
+		
+		<input type="submit">
+	</form>
+	<br>
+	
+	【データ削除】削除するデータを入力してね<br>
+	
+	<form th:action="@{/mydbthirdhukuDel}" method="POST">
+		
+		削除するデータを指定（名前）<input type="text" name="animalname">
+		
+		<input type="submit">
+	</form>
+	
+	<h4>↓検索結果↓</h4>
+	<table>
+		<tr>
+			<th>動物名</th>
+			<th>種類等</th>
+		</tr>
+		<tr th:each="singledata:${kensakupra}">
+				<td><p th:text=${singledata.animalname}></p></td>
+				<td><p th:text=${singledata.animalcategory}></p></td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

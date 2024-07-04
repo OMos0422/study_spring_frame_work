@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h2>
+		<第9回チュートリアル>
+	</h2>
+	<hr>
+
+	<!-- -----------授業ポイント① th:textについて ----------- -->
+
+	<h3>＜授業ポイント① 画面に変数を表示させるth:textについてあれこれ。＞</h3>
+
+	<h4>・modelにしまった変数を表示するシンプルな例↓</h4>
+	<p th:text="${datadayo1}" </p>
+		<hr>
+
+	<h4>・変数と文字列くっつけて1行で表現するには</h4>
+	<h4 style="border:black solid 2px;">${'くっつけたい文字' + 変数名 + 'くっつけたい文字'}</h4>
+	<p th:text="${'変数「datadayo2」の中身は' + datadayo2 + 'です'}" </p>
+		<hr>
+
+	<h4>◆◆試してみよう↓◆◆</h4>
+	<h4>「モデルにしまったdatadayo3の中身はxxxです。」と表示させてみよう↓</h4>
+	<p th:text="${'モデルにしまったdatadayo3の中身は' + datadayo3 + 'です'}" </p>
+
+	<h4>◆◆授業ポイント①練習問題ゾーン↓◆◆</h4>
+	<hr>
+
+	<!-- -----------↑授業ポイント①ここまで↑---------- -->
+
+
+
+	<!-- -----------授業ポイント② th:blockとth:ifについて ----------- -->
+
+	<h2>授業ポイント②thymeleafのif文を使って分岐させる</h2>
+	<h4>th:blockタグを使うとif文を作れるよ.文法はこんな感じ↓</h4>
+	<h3 style="border:black solid 2px;">
+		↓文法↓<br>
+		&lt;th:block th:if=${条件式}&gt;<br>
+		&lt;p&gt;条件式がtrueの時に表示される&lt;/p&gt;<br>
+		&lt;/th:block&gt;
+	</h3>
+
+	<th:block th:if="${datadayo1 == 'A'}">
+		<p>変数「datadayo1」の中身は「A」です。</p>
+	</th:block>
+
+	<h4>◆◆↓試してみよう↓◆◆</h4>
+	<h4>もしも変数「datadayo2」の中身が「B」なら、「Bやで」と表示させる処理を書いてみよう↓</h4>
+	<th:block th:if="${datadayo2 == 'B'}">
+		<p>Bやで</p>
+		<hr>
+		<!-- -----------↑授業ポイント②ここまで↑---------- -->
+
+		<!-- -----------授業ポイント③ th:eachについて ----------- -->
+
+		<h2>リストの中身を全て表示する</h2>
+		<h4>th:eachタグを使うとリストや配列の中身を全て表示できるよ。</h4>
+		<h3 style="border:black solid 2px;">
+			↓文法↓<br>
+			&lt;li th:each="html上での変数名 : ${リストの名前}" th:text=${html上での変数名} >&lt;/li&gt;<br>
+		</h3>
+
+		<h4>◆◆↓試してみよう↓◆◆</h4>
+		<ul>
+			<li th:each="item : ${resultList}" th:text="${item}"></li>
+			<hr>
+			<li th:each="item2 : ${resultList2}" th:text="${item2}"></li>
+		</ul>
+		<hr>
+
+		<!-- -----------↑授業ポイント③ここまで↑---------- -->
+
+
+		<!-- -----------授業ポイント④ ここから練習問題やでーーー ----------- -->
+
+		<h2>練習問題</h2>
+		<th:block th:if="${datadayo3 != A}"></th:block>
+		<p>中身間違えてますよ</p>
+		<hr>
+		１問目
+		<p th:text="${'現在の問題は ' + kekka + ' です'}"></p>
+		<hr>
+		２問目
+		<li th:each="item3 : ${pra2}" th:text="${item3}"></li>
+		<hr>
+		３問目
+</body>
+
+</html>

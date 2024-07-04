@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+
+	<form th:action="@{/additional}" method="POST">
+		<hr>
+		【1問目】<br>
+		貴方はどちらかと言うと…<br>
+
+
+		<fieldset id="1">
+			1人で過ごすのが好き
+			<input type="radio" name="q1" value="i"><br>
+
+			誰かと一緒に過ごすのが好き
+			<input type="radio" name="q1" value="e"><br>
+		</fieldset><br>
+
+		<hr>
+		【2問目】<br>
+		貴方はどちらかと言うと…<br>
+
+		<fieldset id="1">
+			具体的なデータに基づいて行動する。
+			<input type="radio" name="q2" value="s"><br>
+
+			直感や感覚で行動する。
+			<input type="radio" name="q2" value="n"><br>
+		</fieldset><br>
+
+		<hr>
+		【3問目】<br>
+		貴方はどちらかと言うと…<br>
+
+		<!--3問目4問目は１，2問目を参考に書いてみよう-->
+
+
+		<fieldset id="1">
+			自分の論理を重視する。
+			<input type="radio" name="q3" value="t"><br>
+
+			周りの価値観を重視する。
+			<input type="radio" name="q3" value="f"><br>
+		</fieldset><br>
+
+		<hr>
+		【4問目】<br>
+		貴方はどちらかと言うと…<br>
+
+		<fieldset id="1">
+			予定や計画を立てることを好む。
+			<input type="radio" name="q4" value="j"><br>
+
+			流れに身を任せることを好む。
+			<input type="radio" name="q4" value="p"><br>
+		</fieldset><br>
+
+		<input type="submit" value="送信">
+	</form>
+	<hr>
+
+	【診断結果】
+	<p th:text="${kekka}"></p>
+</body>
+
+</html>

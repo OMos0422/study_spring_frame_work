@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h4>ここから今日の内容</h4>
+	
+	検索するデータを入力してね(概要で検索する。)
+	<form th:action="@{/mydbsecondsou}" method="POST">
+		概要<input type="text" name="gaiyo">
+		<input type="submit">
+	</form>
+	<br>
+	【慣れよう問題】検索するデータを入力してね(説明で検索する。)
+	<form th:action="@{/mydbsecondsou}" method="POST">
+		説明<input type="text" name="setumei">
+		<input type="submit">
+	</form>
+	<br>
+	【練習問題用】検索するデータを入力してね(概要 or 説明で検索する。)
+	<form th:action="@{/mydbsecondsou}" method="POST">
+		概要<input type="text" name="gaiyo">
+		説明<input type="text" name="setumei">
+		<input type="submit">
+	</form>
+	
+	
+	<h4>↓検索結果↓</h4>
+	<table border="1">
+		<tr>
+			<th>概要</th>
+			<th>説明</th>
+		</tr>
+		<tr th:each="singledata:${kensaku}">
+			<td><p th:text=${singledata.gaiyo}></p></td>
+			<td><p th:text=${singledata.setumei}></p></td>
+		</tr>
+	</table>
+	
+	<hr>
+	<h5>データ登録</h5>
+	【データ登録】登録するデータを入力してね。
+	<form th:action="@{/mydbsecondsouIns}" method="POST">
+		概要<input type="text" name="inputgaiyo">
+		説明<input type="text" name="inputsetumei">
+		<input type="submit">
+	</form>
+</body>
+
+</html>

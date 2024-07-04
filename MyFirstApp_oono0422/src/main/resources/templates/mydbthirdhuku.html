@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h4>復習問題</h4>
+	
+	検索する猫種(animalcategory)を入力してね
+	<form th:action="@{/mydbthirdhukusearch}" method="POST">
+		<input type="text" name="animalcategory">
+		<input type="submit">
+	</form>
+	<br>
+	【データ登録】登録するデータを入力してね。
+	<form th:action="@{/mydbthirdhukuIns}" method="POST">
+		動物名<input type="text" name="inanimal">
+		種類等<input type="text" name="inkind">
+		<input type="submit">
+	</form>
+		
+	<!-- ここから上は触らなくて大丈夫だよ--->
+	
+	<!-- ここから下の部分を考えてみよう -->
+	
+	<h4>↓検索結果↓</h4>
+	<table>
+		<tr>
+			<th>動物名</th>
+			<th>種類等</th>
+		</tr>
+		<tr th:each="singledata:${kensakupra}">
+				<td><p th:text=${singledata.animalname}></p></td>
+				<td><p th:text=${singledata.animalcategory}></p></td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

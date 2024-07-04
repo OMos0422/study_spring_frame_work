@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>座席予約</title>
+	
+	<!-- 重複した時に出るアラート -->
+	<th:block th:if="${chohuku == '重複'}">
+	<script type="text/javascript" src="js/myzaseki.js"></script>
+	</th:block>
+	
+</head>
+
+<body>
+	<!-- 他のフォームを出現させる処理 -->
+	<h1>操作を入力してください</h1>
+	<form th:action="@{/zasekiyoyaku}" method="POST">
+		<input type="text" name="yoyaku">
+		<input type="submit" value="送信">
+	</form>
+	
+	<!-- 単体予約の処理 -->
+	<th:block th:if="${session.yoyaku == '予約' || session.yoyaku2 == '予約' && chohuku == '重複'}">
+		<h1>予約したい座席番号を1~10で入力してください</h1>
+		<form th:action="@{/zasekiyoyaku}" method="POST">
+		<input type="text" name="system1">
+		<h1>予約した月を入力してください</h1>
+		<input type="text" name="month">
+		<input type="submit" value="送信">
+		</form>
+	</th:block>
+	
+	<!-- 座席確認の処理 -->
+	<th:block th:if="${session.yoyaku == '参照'}">
+		<h1>現在の予約状況</h1>
+		<p><予約済></p>
+		<ul>
+			<li th:each="number : ${session.num}">
+				<p th:text="${number}"></p>
+			</li>
+		</ul>
+	</th:block>
+	
+	<!-- 複数(2つ)予約の処理 -->
+	<th:block th:if="${session.yoyaku == 'まとめて予約'|| session.yoyaku2 == 'まとめて予約' && chohuku == '重複'}">
+		<h1>予約したい番号を2つ入力してください</h1>
+		<h1>※1~10で入力してください</h1>
+		<form th:action="@{/zasekiyoyaku}" method="POST">
+		<input type="text" name="system2">
+		<input type="text" name="system3">
+		<h1>予約した月を入力してください</h1>
+		<input type="text" name="month2">
+		<input type="submit" value="送信">
+	</form>
+	</th:block>	
+	
+	<!-- 取消の処理 -->
+	<th:block th:if="${session.yoyaku == '取消'}">
+		<h1>取り消したい番号を入力してください</h1>
+		<form th:action="@{/zasekiyoyaku}" method="POST">
+		<input type="text" name="system4">
+		<input type="submit" value="送信">
+	</form>
+	</th:block>	
+	
+	<!-- 全取消の処理 -->
+	<!-- DELETEを入力するとすべて取り消される -->
+	<th:block th:if="${session.yoyaku == '全取消'}">
+		<h1>※すべての予約を取消します</h1>
+		<form th:action="@{/zasekiyoyaku}" method="POST">
+		<input type="text" name="system5">
+		<input type="submit" value="送信">
+	</form>
+	</th:block>	
+	
+</body>
+
+</html>

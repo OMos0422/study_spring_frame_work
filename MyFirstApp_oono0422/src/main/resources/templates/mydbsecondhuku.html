@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h5>＜復習問題＞</h5>
+	↓に「mysecondhukutable」の内容が表示されればOK
+	（最初はfirsttableの内容を表示してあります）
+	<!--↓文法のテンプレです。答えではないよ -->
+	<ul>
+		<li th:each="singledata : ${kensakupra}">
+			<p th:text="${singledata.bookname}"></p>
+			<p th:text="${singledata.bookcategory}"></p>
+		</li>
+	</ul>
+	
+</body>
+
+</html>

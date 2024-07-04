@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
+		table {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h3>第3回制作課題</h3>
+	<th:block th:if="${count == 0}">
+		<h3 th:text="${'['+'ユーザ名：'+ session.loginid + 'さん' + '　' +'<ひよこユーザ>　' + '予約数：' + count + '回'+']'}"></h3>
+	</th:block>
+	<th:block th:if="${count >= 1 && count <=3}">
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん' + '　' + 'ユーザランク：' +'<初心者ユーザ>　' + '予約数：' + count + '回'+']'}"></h3>
+	</th:block>
+	<th:block th:if="${count >= 4 && count <= 7}">
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + '<ベテランユーザ>　'+ '予約数：' + count + '回'+']'}"></h3>
+	</th:block>
+	<th:block th:if="${count >=8 && count <=11}">
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + '<大御所ユーザ>　'+ '予約数：' + count + '回'+']'}"></h3>
+	</th:block>
+	<th:block th:if="${count >= 12}">
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + '<石油王>　'+ '予約数：' + count + '回'+']'}"></h3>
+	</th:block>
+	<hr>
+	<p></p>
+	<h3><ユーザランクの基準></h3>
+	<ul>
+		<li>予約数０回の場合は、<ひよこユーザ></li>
+		<li>予約数１回以上３回以下の場合は、<初心者ユーザ></li>
+		<li>予約数４回以上７回以下の場合は、<ベテランユーザ></li>
+		<li>予約数８回以上１１回以下の場合は、<大御所ユーザ></li>
+		<li>予約数１２回以上の場合は、<石油王></li>
+	</ul>
+	<h3><予約数ランキング></h3>
+	<h4>※同じ予約数の場合は先着順</h4>
+	<table border="1">
+		<tr>
+			<th><h3>上位３名</h3></th><th><h3>予約数</th>
+		</tr>
+		<tr th:each="single:${max}">
+			<td>
+				<p th:text=${single.yoyakuname}></p>
+			</td>
+			<td>
+				<p th:text=${single.count}></p>
+			</td>
+		</tr>
+	</table>
+	
+	
+	<p></p>
+	<form th:action="@{/sheetlogout}" method="POST">
+		<input type="submit" value="ログアウト">
+	</form>
+	<p></p>
+	<a href="/sheetreserv">登録画面へ</a>
+	<p></p>
+	<a href="/reservmodify">編集、削除画面へ</a>
+	<hr>
+	<h4>＜予約一覧＞</h4>
+	<table border="1">
+		<tr>
+			<th>予約番号</th>
+			<th>予約日</th>
+			<th>予約者名</th>
+		</tr>
+
+		<tr th:each="singledata:${kensakupra}">
+			<td>
+				<p th:text=${singledata.yoyakubango}></p>
+			</td>
+			<td>
+				<p th:text=${singledata.yoyakubi}></p>
+			</td>
+			<td>
+				<p th:text=${singledata.yoyakuname}></p>
+			</td>
+		</tr>
+
+	</table>
+</body>
+
+</html>

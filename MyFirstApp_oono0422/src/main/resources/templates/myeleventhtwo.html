@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h4>第11回 model & sessionについて</h4>
+	<h4>2ページ目</h4>
+	<th:block th:if="${session.count == 1}"></th:block>
+	<p th:text="${'ようこそ' + session.user +'さん'}"></p>
+	</th:block>
+	<th:block th:if="${session.count == 2}">
+		<p th:text="${'ようこそ' + session.user1 +'さん'}"></p>
+		<p th:text="${'最初にログインしたのは'+ session.use + 'さんです'}"></p>
+	</th:block>
+	<th:block th:if="${session.count == 3">
+		<p th:text="${'ようこそ' + session.user2 +'さん''}"></p>
+		<p th:text="${'最初にログインしたのは'+ session.user + 'さんです'}"></p>
+		<p th:text="${'最後にログインしたのは'+ session.user3 + 'さんです'}"></p>
+	</th:block>
+	<th:block th:if="${session.count >= 4">
+		<p th:text="${'ようこそ' + session.user3 +'さん''}"></p>
+		<p th:text="${'最初にログインしたのは'+ session.user2 + 'さんです'}"></p>
+		<p th:text="${'最後にログインしたのは'+ session.user1 + 'さんです'}"></p>
+	</th:block>
+	<h3>モデルにしまったデータ</h3>
+	<p th:text="${modelData}"></p>
+
+	<h3>セッションにしまったデータ</h3>
+	<p th:text="${session.sessionData}"></p>
+	<p th:text="${session.sessionData2}"></p>
+
+	<a href="http://localhost:8080/elevenpageone">1ページ目に戻る</a>
+
+</body>
+
+</html>

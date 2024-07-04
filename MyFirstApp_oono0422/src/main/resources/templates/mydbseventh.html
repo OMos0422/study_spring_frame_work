@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
+		table{
+			text-align: center;
+		}
+	</style>
+	<th:block th:if="${id == 'id'}">
+	<script type="text/javascript" src="js/mydbseventh.js"></script>
+	</th:block>
+	<th:block th:if="${id == '空白'}">
+	<script type="text/javascript" src="js/mydbseventh2.js"></script>
+	</th:block>
+</head>
+
+<body>
+	
+	<h3>第3回制作課題</h3>
+	<th:block th:if="${session.loginid == null}">
+	<h3><ログイン処理></h3>
+	<form th:action="@{/sheetlogin}" method="POST">
+		<input type="text" name="id" placeholder="ログインID">
+		<input type="password" name="pass" placeholder="パスワード">
+		<input type="submit" value="ログイン">
+	</form>
+	<h3><新規登録処理></h3>
+	<form th:action="@{/loginIns}" method="POST">
+		<input type="text" name="id" placeholder="ログインID">
+		<input type="text" name="pass" placeholder="パスワード">
+		<input type="submit" value="新規登録">
+	</form>
+	<h3><退会処理></h3>
+	<form th:action="@{/loginDel}" method="POST">
+		<input type="text" name="id"   placeholder="ログインID">
+		<input type="text" name="pass" placeholder="パスワード">
+		<input type="submit" value="退会">
+	</form>
+	<h3><パスワード変更処理></h3>
+	<form th:action="@{/passUpd}" method="POST">
+		<input type="text" name="pass2"   placeholder="新しいパスワード">
+		<input type="text" name="id"   placeholder="現在のログインID">
+		<input type="text" name="pass" placeholder="現在のパスワード">
+		<input type="submit" value="パスワード変更">
+	</form>
+	</th:block>
+	
+	<th:block th:if="${session.loginid != null}">
+		<h3 th:text="${'ようこそ' + session.loginid + 'さん'}"></h3>
+	<h4>＜予約情報を入力してください＞</h4>
+	<form th:action="@{/sheetIns}" method="POST">
+		<input type="text" name="num" placeholder="予約番号">
+		<input type="date" name="day">
+		<input type="submit" value="予約" >
+	</form>
+	
+	<h4>＜予約者名検索＞</h4>
+	<form th:action="@{/sheetSer}" method="POST">
+		<input type="text" name="name" placeholder="予約者名">
+		<input type="submit" value="検索" >
+	</form>
+	<p></p>
+	<form th:action="@{/sheetlogout}" method="POST">
+		<input type="submit" value="ログアウト">
+	</form>
+	<p></p>
+	<a href="/reservmodify">編集、削除画面へ</a>
+	<p></p>
+	<a href="/sheetmypage">マイページへ</a>
+	<hr>
+	<h4>＜予約一覧＞</h4>
+	<table border="1">
+		<tr>
+			<th>予約番号</th>
+			<th>予約日</th>
+			<th>予約者名</th>
+		</tr>
+		
+		<tr th:each="singledata:${kensakupra}">
+				<td><p th:text=${singledata.yoyakubango}></p></td>
+				<td><p th:text=${singledata.yoyakubi}></p></td>
+				<td><p th:text=${singledata.yoyakuname}></p></td>
+		</tr>
+		
+	</table>
+	</th:block>
+
+</body>
+
+</html>

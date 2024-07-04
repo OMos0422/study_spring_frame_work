@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<h4>DB連携！</h4>
+	
+	<h3>個人演習</h3>
+	
+	<h4>練習問題①</h4>
+	画面最下部の「検索結果」の部分に全部のデータが表示されるようにしてね。
+	<hr>
+	
+	<h4>練習問題②</h4>
+	登録用のformタグを作ろう
+	<form th:action="@{/fourthsoloIns}" method="POST">
+		<input type="text" name="compname" placeholder="会社名を入力！">
+		<input type="text" name="compemp" placeholder="従業員数を入力！">
+		<input type="text" name="compgyoshu" placeholder="業種を入力！">
+		<input type="submit" value="登録">
+	</form>
+	<hr>
+
+	<h4>練習問題③</h4>
+	更新用のformタグを作ろう
+	<form th:action="@{/fourthsoloUpd}" method="POST">
+		<input type="text" name="compname" placeholder="会社名を入力！">
+		<input type="text" name="compemp" placeholder="従業員数を入力！">
+		<input type="text" name="compgyoshu" placeholder="業種を入力！">
+		<input type="submit" value="更新">
+	</form>
+	<hr>
+	
+	<h4>練習問題④</h4>
+	削除用のformタグを作ろう
+	<form th:action="@{/fourthsoloDel}" method="POST">
+		<input type="text" name="compname" placeholder="削除したい会社名を入力！">
+		<input type="submit" value="削除">
+	</form>
+	<hr>
+	
+	<h4>練習問題⑤</h4>
+	検索用のformタグを作ろう
+	<form th:action="@{/fourthsoloSer}" method="POST">
+		<input type="text" name="compname" placeholder="会社名を検索！">
+		<input type="text" name="compgyoshu" placeholder="業種を検索！">
+		<input type="submit" value="検索">
+	</form>
+	<hr>
+	
+	
+	<h4>↓検索結果↓</h4>
+	<table>
+		<tr>
+			<th>会社名</th>
+			<th>従業員数</th>
+			<th>業種</th>
+		</tr>
+	
+		<tr th:each="singledata:${kensakupra}">
+				<td><p th:text=${singledata.compname}></p></td>
+				<td><p th:text=${singledata.compemp}></p></td>
+				<td><p th:text=${singledata.compgyoshu}></p></td>
+		</tr>
+	</table>
+
+</body>
+
+</html>
