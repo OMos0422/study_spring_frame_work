@@ -14,20 +14,21 @@
 <body>
 
 	<h3>第3回制作課題</h3>
+	<!-- 予約数に応じてユーザランク表示を分ける↓  -->
 	<th:block th:if="${count == 0}">
-		<h3 th:text="${'['+'ユーザ名：'+ session.loginid + 'さん' + '　' +'<ひよこユーザ>　' + '予約数：' + count + '回'+']'}"></h3>
+		<h3 th:text="${'['+'ユーザ名：'+ session.loginid + 'さん' + '　' + 'ユーザランク：' + '<ひよこユーザ>　' + '予約数：' + count + '回'+']'}"></h3>
 	</th:block>
 	<th:block th:if="${count >= 1 && count <=3}">
 		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん' + '　' + 'ユーザランク：' +'<初心者ユーザ>　' + '予約数：' + count + '回'+']'}"></h3>
 	</th:block>
 	<th:block th:if="${count >= 4 && count <= 7}">
-		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + '<ベテランユーザ>　'+ '予約数：' + count + '回'+']'}"></h3>
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + 'ユーザランク：' +'<ベテランユーザ>　'+ '予約数：' + count + '回'+']'}"></h3>
 	</th:block>
 	<th:block th:if="${count >=8 && count <=11}">
-		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + '<大御所ユーザ>　'+ '予約数：' + count + '回'+']'}"></h3>
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + 'ユーザランク：' +'<大御所ユーザ>　'+ '予約数：' + count + '回'+']'}"></h3>
 	</th:block>
 	<th:block th:if="${count >= 12}">
-		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + '<石油王>　'+ '予約数：' + count + '回'+']'}"></h3>
+		<h3 th:text="${'['+ 'ユーザ名：'+ session.loginid + 'さん'  + '　' + 'ユーザランク：' +'<石油王>　'+ '予約数：' + count + '回'+']'}"></h3>
 	</th:block>
 	<hr>
 	<p></p>

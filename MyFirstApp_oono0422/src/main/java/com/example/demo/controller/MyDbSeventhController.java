@@ -51,7 +51,9 @@ public class MyDbSeventhController {
 	public String sheet2(HttpSession session, Model model, String num, String day) {
 		String name = (String) session.getAttribute("loginid");
 		//登録処理
+		//番号単体で入力されたときの処理 例)１↓
 		if (num.length() == 1) {
+		//番号に～番をつける処理 例)１→１番↓
 			num += "番";
 		}
 
@@ -86,7 +88,9 @@ public class MyDbSeventhController {
 	//削除用(ヒント無し)
 	@RequestMapping(path = "/sheetDel", method = RequestMethod.POST)
 	public String sheet4(Model model, String num) {
+		//番号単体で入力されたときの処理 例)１↓
 		if (num.length() == 1) {
+		//番号に～番をつける処理 例)１→１番↓
 			num += "番";
 		}
 		jdbcTemplate.update("DELETE FROM sheetreserve WHERE yoyakubango = ?", num);

@@ -30,7 +30,7 @@ public class MyDbSeventh2Controller {
 	//ログイン
 	@RequestMapping(path = "/sheetlogin", method = RequestMethod.POST)
 	public String sheet11(HttpSession session, String id, String pass) {
-
+		//IDとパスワードを受け取り、ログイン画面へ移行
 		List<Map<String, Object>> kensakukekka = jdbcTemplate
 				.queryForList("SELECT * FROM sheetuser WHERE userid = ? AND userpass = ?", id, pass);
 		if (kensakukekka.size() == 0) {
@@ -46,7 +46,9 @@ public class MyDbSeventh2Controller {
 
 	@RequestMapping(path = "/loginIns", method = RequestMethod.POST)
 	public String sheet12(HttpSession session, Model model, String id, String pass) {
+		//IDとパスワードが等しい時にアラートを発生させる↓
 		if (id.equals(pass)) {
+			//空白の場合
 			if ("".equals(id) && "".equals(pass)) {
 				model.addAttribute("id", "空白");
 				return "mydbseventh";
@@ -54,7 +56,12 @@ public class MyDbSeventh2Controller {
 				model.addAttribute("id", "id");
 				return "mydbseventh";
 			}
+		} else if ("".equals(id) || "".equals(pass)) {
+			//どちらか一方が空白の場合
+			model.addAttribute("id", "空白");
+			return "mydbseventh";
 		} else {
+			//IDとパスワードが等しくなく、空白でもない場合↓
 			List<Map<String, Object>> kensakukekka = jdbcTemplate
 					.queryForList("SELECT * FROM sheetuser WHERE userid = ? AND userpass = ?", id, pass);
 			if (kensakukekka.size() == 0 && id != null && pass != null) {
@@ -84,6 +91,7 @@ public class MyDbSeventh2Controller {
 	public String sheet5(Model model, String pass2, String id, String pass) {
 		List<Map<String, Object>> kensakukekka = jdbcTemplate
 				.queryForList("SELECT * FROM sheetuser WHERE userid = ? AND userpass = ?", id, pass);
+		//パスワードを変更するときの処理↓
 		if (kensakukekka.size() != 0) {
 			jdbcTemplate.update("UPDATE sheetuser SET userpass = ? WHERE userid = ? AND userpass = ?", pass2, id, pass);
 		} else {

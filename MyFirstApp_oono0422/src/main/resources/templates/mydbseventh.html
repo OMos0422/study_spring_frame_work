@@ -9,9 +9,11 @@
 			text-align: center;
 		}
 	</style>
+	<!-- IDとパスワードが等しい時 -->
 	<th:block th:if="${id == 'id'}">
 	<script type="text/javascript" src="js/mydbseventh.js"></script>
 	</th:block>
+	<!-- IDとパスワードが空白またはどちら一方が空白の時 -->
 	<th:block th:if="${id == '空白'}">
 	<script type="text/javascript" src="js/mydbseventh2.js"></script>
 	</th:block>
