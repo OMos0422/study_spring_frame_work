@@ -35,11 +35,46 @@ public class MyDbSeventh2Controller {
 				.queryForList("SELECT * FROM sheetuser WHERE userid = ? AND userpass = ?", id, pass);
 		if (kensakukekka.size() == 0) {
 			return "mydbseventh";
+		} else if ("admin".equals(id) && "adminpass".equals(pass)) {
+			return "redirect:/sheetadmin";
 		} else {
 			session.setAttribute("loginid", id);
 			return "redirect:/sheetreserv";
 		}
 
+		/**returnの後ろのhtml名以外は変更の必要無し**/
+
+	}
+
+	@RequestMapping(path = "/sheetadmin", method = RequestMethod.GET)
+	public String sheet15(Model model, HttpSession session, String id, String pass) {
+		//IDとパスワードを受け取り、ログイン画面へ移行
+		List<Map<String, Object>> kensakukekka = jdbcTemplate
+				.queryForList(
+						"SELECT sheetreserve.yoyakuname,sheetreserve.yoyakubango,sheetreserve.yoyakubi, sheetuser.userpass\n"
+								+ "FROM sheetreserve\n"
+								+ "LEFT JOIN sheetuser\n"
+								+ "ON sheetreserve.yoyakuname = sheetuser.userid;");
+		model.addAttribute("kensakupra", kensakukekka);
+		return "mydbnineth";
+		/**returnの後ろのhtml名以外は変更の必要無し**/
+
+	}
+
+	@RequestMapping(path = "/sheetadminUpd", method = RequestMethod.POST)
+	public String sheet16(Model model, HttpSession session,  String id2, String pass2) {
+		//IDとパスワードを受け取り、ログイン画面へ移行
+		jdbcTemplate.update("UPDATE sheetuser SET userpass = ? WHERE userid = ?", pass2, id2);
+		return "redirect:/sheetadmin";
+		/**returnの後ろのhtml名以外は変更の必要無し**/
+
+	}
+
+	@RequestMapping(path = "/sheetadminDel", method = RequestMethod.POST)
+	public String sheet17(Model model, HttpSession session, String id) {
+		//IDとパスワードを受け取り、ログイン画面へ移行
+		jdbcTemplate.update("DELETE FROM sheetuser WHERE userid = ?", id);
+		return "redirect:/sheetadmin";
 		/**returnの後ろのhtml名以外は変更の必要無し**/
 
 	}

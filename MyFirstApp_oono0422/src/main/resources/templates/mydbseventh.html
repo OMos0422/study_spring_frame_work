@@ -55,6 +55,7 @@
 	<h4>＜予約情報を入力してください＞</h4>
 	<form th:action="@{/sheetIns}" method="POST">
 		<input type="text" name="num" placeholder="予約番号">
+	<!-- カレンダーから選んだ日付を変数に格納し、Controllerへ↓ -->
 		<input type="date" name="day">
 		<input type="submit" value="予約" >
 	</form>

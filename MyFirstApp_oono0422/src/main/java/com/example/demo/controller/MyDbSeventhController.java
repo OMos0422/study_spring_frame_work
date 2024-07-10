@@ -51,21 +51,51 @@ public class MyDbSeventhController {
 	public String sheet2(HttpSession session, Model model, String num, String day) {
 		String name = (String) session.getAttribute("loginid");
 		//登録処理
-		//番号単体で入力されたときの処理 例)１↓
+
 		if (num.length() == 1) {
-		//番号に～番をつける処理 例)１→１番↓
+			num += "番";
+		} else if (num.length() == 2 && !("番".equals(num.substring(1, 2)))) {
+			num += "番";
+		} else if (num.length() == 3 && !("番".equals(num.substring(2, 3)))) {
+			num += "番";
+		} else if (num.length() == 4 && !("番".equals(num.substring(3, 4)))) {
 			num += "番";
 		}
 
 		List<Map<String, Object>> kensakukekka = jdbcTemplate
 				.queryForList("SELECT * FROM sheetreserve WHERE yoyakubango = ?", num);
 		if (kensakukekka.size() == 0 && !("".equals(num)) && !("".equals(day))) {
-			String day2 = day.substring(6, 7);
-			String day3 = day.substring(9, 10);
-			String day4 = "";
-			day4 = day2 + "月" + day3 + "日";
-			jdbcTemplate.update("INSERT INTO sheetreserve VALUES (?,?,?)", num, day4, name);
-			kensakukekka = jdbcTemplate.queryForList("SELECT * FROM sheetreserve");
+			String day1 = day.substring(5, 6);
+			int d1 = Integer.parseInt(day.substring(8, 9));
+			if ("1".equals(day1) && 1 <= d1 && 4 > d1) {
+				String day2 = day.substring(5, 7);
+				String day3 = day.substring(8, 10);
+				String day4 = "";
+				day4 = day2 + "月" + day3 + "日";
+				jdbcTemplate.update("INSERT INTO sheetreserve VALUES (?,?,?)", num, day4, name);
+				kensakukekka = jdbcTemplate.queryForList("SELECT * FROM sheetreserve");
+			} else if ("1".equals(day1) && d1 == 0) {
+				String day2 = day.substring(5, 7);
+				String day3 = day.substring(9, 10);
+				String day4 = "";
+				day4 = day2 + "月" + day3 + "日";
+				jdbcTemplate.update("INSERT INTO sheetreserve VALUES (?,?,?)", num, day4, name);
+				kensakukekka = jdbcTemplate.queryForList("SELECT * FROM sheetreserve");
+			} else if ("0".equals(day1) && d1 == 0) {
+				String day2 = day.substring(6, 7);
+				String day3 = day.substring(9, 10);
+				String day4 = "";
+				day4 = day2 + "月" + day3 + "日";
+				jdbcTemplate.update("INSERT INTO sheetreserve VALUES (?,?,?)", num, day4, name);
+				kensakukekka = jdbcTemplate.queryForList("SELECT * FROM sheetreserve");
+			} else if ("0".equals(day1) && 1 <= d1 && 4 > d1) {
+				String day2 = day.substring(6, 7);
+				String day3 = day.substring(8, 10);
+				String day4 = "";
+				day4 = day2 + "月" + day3 + "日";
+				jdbcTemplate.update("INSERT INTO sheetreserve VALUES (?,?,?)", num, day4, name);
+				kensakukekka = jdbcTemplate.queryForList("SELECT * FROM sheetreserve");
+			}
 		} else {
 			return "redirect:/sheetreserv";
 		}
@@ -79,6 +109,12 @@ public class MyDbSeventhController {
 		String name = (String) session.getAttribute("loginid");
 		if (num.length() == 1) {
 			num += "番";
+		} else if (num.length() == 2 && !("番".equals(num.substring(1, 2)))) {
+			num += "番";
+		} else if (num.length() == 3 && !("番".equals(num.substring(2, 3)))) {
+			num += "番";
+		} else if (num.length() == 4 && !("番".equals(num.substring(3, 4)))) {
+			num += "番";
 		}
 		jdbcTemplate.update("UPDATE sheetreserve SET yoyakuname = ? WHERE yoyakubango = ?", name, num);
 		// 更新処理
@@ -90,7 +126,12 @@ public class MyDbSeventhController {
 	public String sheet4(Model model, String num) {
 		//番号単体で入力されたときの処理 例)１↓
 		if (num.length() == 1) {
-		//番号に～番をつける処理 例)１→１番↓
+			num += "番";
+		} else if (num.length() == 2 && !("番".equals(num.substring(1, 2)))) {
+			num += "番";
+		} else if (num.length() == 3 && !("番".equals(num.substring(2, 3)))) {
+			num += "番";
+		} else if (num.length() == 4 && !("番".equals(num.substring(3, 4)))) {
 			num += "番";
 		}
 		jdbcTemplate.update("DELETE FROM sheetreserve WHERE yoyakubango = ?", num);
