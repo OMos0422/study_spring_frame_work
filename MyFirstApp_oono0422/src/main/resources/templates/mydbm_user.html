@@ -36,7 +36,7 @@
 		<input type="text" name="id2"  placeholder="最後の学籍番号">
 		<input type="submit" value="更新">
 	</form>
-	<!-- 更新するクラスを間違えたときに1学年下げる用のフォーム※卒業生にしてしまった場合に戻せるのは直前のクラスのみなので気づいたらすぐに戻すべし！  -->
+	<!-- 更新するクラスを間違えたときに1学年下げる用のフォーム  -->
 	<h1>クラスを戻す</h1>
 	<form th:action="@{/classreturn}" method="POST">
 		<input type="text" name="returns"  placeholder="更新したいクラス">
@@ -50,7 +50,7 @@
 	<p th:text="${record + '件のレコードを取得しました。'}"></p>
 	<hr>
 	<!-- テーブル表示 -->
-	<table border="1">
+	<table border="1" align="center" width="1200">
 		<tr>
 		<!-- 列名を指定 -->
 		<th>user_id</th>
