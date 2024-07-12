@@ -32,8 +32,69 @@ public class MyDbM_userController {
 		return "mydbm_user";
 	}
 
+	@RequestMapping(path = "/classSet", method = RequestMethod.GET)
+	public String dbfg7(Model model, HttpSession session) {
+		String set = (String) session.getAttribute("setUp");
+		if (set != null && "CD".equals(set)) {
+			session.setAttribute("setUp", set);
+			List<Map<String, Object>> kensakukekka = jdbcTemplate.queryForList("SELECT class,class_CD FROM m_user\n"
+					+ "group by class,class_CD order by class");
+			//検索結果のリストをmodelに格納
+			model.addAttribute("kensakupra", kensakukekka);
+			model.addAttribute("record", kensakukekka.size());
+
+			return "mydbm_user";
+		} else {
+			return "mydbm_user";
+		}
+		//検索処理
+	}
+
+	@RequestMapping(path = "/classSet", method = RequestMethod.POST)
+	public String dbfg9(Model model, HttpSession session, String cls, String cd) {
+		//検索処理
+		List<Map<String, Object>> kensakukekka = jdbcTemplate.queryForList("SELECT class FROM m_user WHERE class = ?",
+				cls);
+		//検索結果のリストをmodelに格納
+		if (kensakukekka.size() != 0) {
+			jdbcTemplate.update("UPDATE m_user SET class_CD = ? WHERE class = ?", cd, cls);
+			return "redirect:/classSet";
+		}
+
+		return "redirect:/classSet";
+	}
+
+	@RequestMapping(path = "/classSetSer", method = RequestMethod.POST)
+	public String dbfg10(Model model, String cls) {
+		//検索処理
+
+		List<Map<String, Object>> kensakukekka;
+		//1行のみ表示させる場合 例)１A１↓
+		if (cls.length() == 3 && "1".equals(cls.substring(2, 3))) {
+			String cls2 = cls.substring(0, 2);
+			kensakukekka = jdbcTemplate.queryForList("SELECT class,class_CD FROM m_user WHERE class = ? limit 1", cls2);
+			model.addAttribute("record", kensakukekka.size());
+			model.addAttribute("kensakupra", kensakukekka);
+			return "mydbm_user";
+		}
+		kensakukekka = jdbcTemplate
+				.queryForList("SELECT class,class_CD FROM m_user WHERE class = ?", cls);
+		//検索結果のリストをmodelに格納
+		model.addAttribute("record", kensakukekka.size());
+		model.addAttribute("kensakupra", kensakukekka);
+
+		return "mydbm_user";
+	}
+
+	@RequestMapping(path = "/classlogout", method = RequestMethod.POST)
+	public String dbfg8(Model model, HttpSession session) {
+		//クラスCDセット画面から通常画面へ
+		session.removeAttribute("setUp");
+		return "redirect:/classupd";
+	}
+
 	@RequestMapping(path = "/classSer", method = RequestMethod.POST)
-	public String dbfg2(Model model, String cls) {
+	public String dbfg2(Model model, HttpSession session, String cls) {
 
 		//検索処理
 		List<Map<String, Object>> kensakukekka;
@@ -42,6 +103,10 @@ public class MyDbM_userController {
 			//検索結果のリストをmodelに格納
 			model.addAttribute("kensakupra", kensakukekka);
 			model.addAttribute("record", kensakukekka.size());
+			//CDと入力するとクラスCDをセットする画面へ遷移↓
+		} else if ("CD".equals(cls)) {
+			session.setAttribute("setUp", cls);
+			return "redirect:/classSet";
 		} else {
 			kensakukekka = jdbcTemplate.queryForList("SELECT * FROM m_user");
 			model.addAttribute("kensakupra", kensakukekka);
@@ -70,49 +135,26 @@ public class MyDbM_userController {
 		return "mydbm_user";
 	}
 
-	@RequestMapping(path = "/classupd2", method = RequestMethod.POST)
-	public String dbfg6(Model model, String name, String id1, String id2, String upd, String upd2) {
-		//検索処理
-		List<Map<String, Object>> kensakukekka;
-		kensakukekka = jdbcTemplate.queryForList("SELECT * FROM m_user WHERE user_name LIKE ?", name);
-		if (kensakukekka.size() != 0) {
-			//検索結果のリストをmodelに格納
-			model.addAttribute("kensakupra", kensakukekka);
-			model.addAttribute("record", kensakukekka.size());
-		} else {
-			kensakukekka = jdbcTemplate.queryForList("SELECT * FROM m_user");
-			model.addAttribute("kensakupra", kensakukekka);
-			model.addAttribute("record", kensakukekka.size());
-		}
-
-		return "mydbm_user";
-	}
-
 	//練習問題③用
 	@RequestMapping(path = "/classupd", method = RequestMethod.POST)
-	public String dbfg3(HttpSession session, Model model, String upd, String id1, String id2) {
+	public String dbfg3(HttpSession session, Model model, String upd, String cd1) {
 
 		List<Map<String, Object>> kensakukekka;
-		Map<String, String> begin;
-		Map<String, String> last;
+		Map<String, String> CD;
 		//Mapを作成↓
-		if (session.getAttribute("map1") == null && session.getAttribute("map2") == null) {
+		if (session.getAttribute("map") == null) {
 
-			begin = new HashMap<>();
-			last = new HashMap<>();
-
+			CD = new HashMap<>();
 		} else {
 
-			begin = (Map<String, String>) session.getAttribute("map1");
-			last = (Map<String, String>) session.getAttribute("map2");
+			CD = (Map<String, String>) session.getAttribute("map");
 		}
 
 		kensakukekka = jdbcTemplate
-				.queryForList("SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ?;", upd, id1,
-						id2);
+				.queryForList("SELECT * FROM m_user WHERE class = ? AND class_CD = ?;", upd, cd1);
 
 		//存在するまたは何年制か知っているクラスの更新処理↓
-		if (kensakukekka.size() != 0 && upd != null && !("卒業生".equals(upd)) && id1 != null && id2 != null) {
+		if (kensakukekka.size() != 0 && upd != null && !("卒業生".equals(upd)) && cd1 != null) {
 			//例)３Aの３を抽出し、int型にする処理 upd2↓
 
 			int upd2 = Integer.parseInt(upd.substring(0, 1));
@@ -123,38 +165,32 @@ public class MyDbM_userController {
 			if ("A".equals(upd3)) {
 				if (upd2 == 4) {
 					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;",
-							"卒業生",
-							upd, id1, id2);
+							"UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;",
+							"卒業生", upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ?;", "卒業生",
-							id1, id2);
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ?;", "卒業生",
+							cd1);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
 					model.addAttribute("class", upd);
 
-					//最後の学籍番号と最後の学籍番号をそれぞれのMapにputする↓
-					begin.put(id1, upd);
-					last.put(id2, upd);
+					//クラスCDをキーにしたMapに更新元のクラス名をputする↓
+					CD.put(cd1, upd);
 
-					session.setAttribute("map1", begin);
-					session.setAttribute("map2", last);
+					session.setAttribute("map", CD);
 
-					//session.setAttribute("kupd1", upd);
-					//session.setAttribute("kid1", id1);
-					//session.setAttribute("kid2", id2);
 				} else {
 					//抽出した数字に+１する処理↓
 					upd2 += 1;
 					//結合処理↓
 					upd4 += upd2 + upd3;
 					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;", upd4,
-							upd, id1, id2);
+							"UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;", upd4,
+							upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
 							upd4,
-							id1, id2);
+							cd1);
 					model.addAttribute("class", upd);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
@@ -162,38 +198,32 @@ public class MyDbM_userController {
 			} else if ("B".equals(upd3)) {
 				if (upd2 == 3) {
 					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;",
-							"卒業生",
-							upd, id1, id2);
+							"UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;",
+							"卒業生", upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
-							"卒業生",
-							id1, id2);
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ?;", "卒業生",
+							cd1);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
 					model.addAttribute("class", upd);
 
-					//最後の学籍番号と最後の学籍番号をそれぞれのMapにputする↓
-					begin.put(id1, upd);
-					last.put(id2, upd);
-					session.setAttribute("map1", begin);
-					session.setAttribute("map2", last);
+					//クラスCDをキーにしたMapに更新元のクラス名をputする↓
+					CD.put(cd1, upd);
 
-					//session.setAttribute("kupd1", upd);
-					//session.setAttribute("kid1", id1);
-					//session.setAttribute("kid2", id2);
+					session.setAttribute("map", CD);
+
 				} else {
 					//抽出した数字に+１する処理↓
 					upd2 += 1;
 					//結合処理↓
 					upd4 += upd2 + upd3;
 					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;", upd4,
-							upd, id1, id2);
+							"UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;", upd4,
+							upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
 							upd4,
-							id1, id2);
+							cd1);
 					model.addAttribute("class", upd);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
@@ -201,39 +231,32 @@ public class MyDbM_userController {
 			} else if ("C".equals(upd3) || "D".equals(upd3) || "N".equals(upd3)) {
 				if (upd2 == 2) {
 					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;",
-							"卒業生",
-							upd, id1, id2);
+							"UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;",
+							"卒業生", upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
-							"卒業生",
-							id1, id2);
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ?;", "卒業生",
+							cd1);
 					model.addAttribute("class", upd);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
 
-					//最後の学籍番号と最後の学籍番号をそれぞれのMapにputする↓
-					begin.put(id1, upd);
-					last.put(id2, upd);
+					//クラスCDをキーにしたMapに更新元のクラス名をputする↓
+					CD.put(cd1, upd);
 
-					session.setAttribute("map1", begin);
-					session.setAttribute("map2", last);
+					session.setAttribute("map", CD);
 
-					//session.setAttribute("kupd1", upd);
-					//session.setAttribute("kid1", id1);
-					//session.setAttribute("kid2", id2);
 				} else {
 					//抽出した数字に+１する処理↓
 					upd2 += 1;
 					//結合処理↓
 					upd4 += upd2 + upd3;
 					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;", upd4,
-							upd, id1, id2);
+							"UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;", upd4,
+							upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
 							upd4,
-							id1, id2);
+							cd1);
 					model.addAttribute("class", upd);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
@@ -242,38 +265,31 @@ public class MyDbM_userController {
 			} else {
 				//何年制か分からないものは４年制として処理↓
 				if (upd2 == 4) {
-					jdbcTemplate.update(
-							"UPDATE m_user SET class  = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;",
-							"卒業生",
-							upd, id1, id2);
+					jdbcTemplate.update("UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;",
+							"卒業生", upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
-							"卒業生",
-							id1, id2);
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ?;", "卒業生",
+							cd1);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
 					model.addAttribute("class", upd);
 
-					//最後の学籍番号と最後の学籍番号をそれぞれのMapにputする↓
-					begin.put(id1, upd);
-					last.put(id2, upd);
+					//クラスCDをキーにしたMapに更新元のクラス名をputする↓
+					CD.put(cd1, upd);
 
-					session.setAttribute("map1", begin);
-					session.setAttribute("map2", last);
+					session.setAttribute("map", CD);
 
-					//session.setAttribute("kupd1", upd);
-					//session.setAttribute("kid1", id1);
-					//session.setAttribute("kid2", id2);
 				} else {
 					//抽出した数字に+１する処理↓
 					upd2 += 1;
 					//結合処理↓
 					upd4 += upd2 + upd3;
-					jdbcTemplate.update("UPDATE m_user SET class  = ? WHERE class = ?;", upd4, upd);
+					jdbcTemplate.update("UPDATE m_user SET class  = ? WHERE class = ? AND class_CD = ?;", upd4,
+							upd, cd1);
 					kensakukekka = jdbcTemplate.queryForList(
-							"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
+							"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
 							upd4,
-							id1, id2);
+							cd1);
 					model.addAttribute("class", upd);
 					model.addAttribute("kensakupra", kensakukekka);
 					model.addAttribute("record", kensakukekka.size());
@@ -282,8 +298,7 @@ public class MyDbM_userController {
 			//卒業生が入力されたときの処理↓
 		} else if ("卒業生".equals(upd)) {
 			kensakukekka = jdbcTemplate.queryForList(
-					"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;", "卒業生",
-					id1, id2);
+					"SELECT * FROM m_user WHERE class = ?;", "卒業生 order by user_id;");
 			model.addAttribute("kensakupra", kensakukekka);
 			model.addAttribute("record", kensakukekka.size());
 			return "mydbm_user";
@@ -303,29 +318,21 @@ public class MyDbM_userController {
 	}
 
 	@RequestMapping(path = "/classreturn", method = RequestMethod.POST)
-	public String dbfg5(HttpSession session, Model model, String returns, String id3, String id4) {
-		//直前で卒業生にしてしまったクラス↓
-		//		String keep1 = (String) session.getAttribute("kupd1");
-		//卒業生にしてしまったクラスの最初の学籍番号↓
-		//		String keepid1 = (String) session.getAttribute("kid1");
-		//卒業生にしてしまったクラスの最後の学籍番号↓
-		//		String keepid2 = (String) session.getAttribute("kid2");
+	public String dbfg5(HttpSession session, Model model, String returns, String cd2) {
+		//直前で卒業させたクラスが格納されている↓
+		Map<String, String> map = (Map<String, String>) session.getAttribute("map");
 
-		Map<String, String> map1 = (Map<String, String>) session.getAttribute("map1");
-		Map<String, String> map2 = (Map<String, String>) session.getAttribute("map2");
-
-		//それぞれのMapがnullじゃないときは保持↓
-		if (map1 != null && map2 != null) {
-			session.setAttribute("map1", map1);
-			session.setAttribute("map2", map2);
+		//Mapがnullじゃないときは保持↓
+		if (map != null) {
+			session.setAttribute("map", map);
 		}
 
 		List<Map<String, Object>> kensakukekka;
 
 		kensakukekka = jdbcTemplate.queryForList(
-				"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ?", returns, id3, id4);
+				"SELECT * FROM m_user WHERE class = ? AND class_CD = ?", returns, cd2);
 		//存在するまたは何年制か知っているクラスの更新処理↓
-		if (kensakukekka.size() != 0 && returns != null && !("卒業生".equals(returns)) && id3 != null && id4 != null) {
+		if (kensakukekka.size() != 0 && returns != null && !("卒業生".equals(returns)) && cd2 != null) {
 
 			//例)３Aの３を抽出し、int型にする処理 returns2↓
 			int returns2 = Integer.parseInt(returns.substring(0, 1));
@@ -335,44 +342,39 @@ public class MyDbM_userController {
 			String returns4 = "";
 			if (returns2 == 1) {
 				kensakukekka = jdbcTemplate.queryForList(
-						"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id order by user_id;",
-						returns, id3, id4);
+						"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
+						returns, cd2);
 				model.addAttribute("kensakupra", kensakukekka);
 				model.addAttribute("record", kensakukekka.size());
 				return "mydbm_user";
 			} else {
 				returns2 -= 1;
 				returns4 += returns2 + returns3;
-				jdbcTemplate.update("UPDATE m_user SET class = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;",
-						returns4, returns,
-						id3, id4);
+				jdbcTemplate.update("UPDATE m_user SET class = ? WHERE class = ? AND class_CD = ?;",
+						returns4, returns, cd2);
 				model.addAttribute("class", returns);
 				kensakukekka = jdbcTemplate.queryForList(
-						"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
-						returns4, id3, id4);
+						"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
+						returns4, cd2);
 				model.addAttribute("class", returns + "クラスになった" + returns4);
 				model.addAttribute("kensakupra", kensakukekka);
 				model.addAttribute("record", kensakukekka.size());
 			}
 
 			//卒業生が入力されたときの処理↓
-		} else if ("卒業生".equals(returns) & map1 != null && map2 != null && map1.get(id3) != null
-				&& map2.get(id4) != null && map1.size() != 0 && map2.size() != 0) {
-			if (map1.get(id3).equals(map2.get(id4))) {
-				jdbcTemplate.update("UPDATE m_user SET class = ? WHERE class = ? AND user_id >= ? AND user_id <= ?;",
-						map1.get(id3), returns,
-						id3, id4);
+		} else if ("卒業生".equals(returns)) {
+			if (map != null && map.get(cd2) != null
+					&& map.size() != 0) {
+				jdbcTemplate.update("UPDATE m_user SET class = ? WHERE class = ? AND class_CD = ?;",
+						map.get(cd2), returns, cd2);
 				kensakukekka = jdbcTemplate.queryForList(
-						"SELECT * FROM m_user WHERE class = ? AND user_id >= ? AND user_id <= ? order by user_id;",
-						map1.get(id3), id3,
-						id4);
+						"SELECT * FROM m_user WHERE class = ? AND class_CD = ? order by user_id;",
+						map.get(cd2), cd2);
 				model.addAttribute("kensakupra", kensakukekka);
 				model.addAttribute("record", kensakukekka.size());
-				model.addAttribute("class", returns + "になった" + map1.get(id3));
-				map1.remove(id3);
-				map2.remove(id4);
-				session.setAttribute("map1", map1);
-				session.setAttribute("map2", map2);
+				model.addAttribute("class", returns + "になった" + map.get(cd2));
+				map.remove(cd2);
+				session.setAttribute("map", map);
 			} else {
 				return "redirect:/classupd";
 			}

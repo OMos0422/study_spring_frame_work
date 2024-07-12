@@ -16,32 +16,68 @@
 </head>
 
 <body>
+	<!-- クラス検索にCDと入力したときに出現する↓  -->
+	<th:block th:if="${session.setUp != null}">
+		<h1><管理者画面></h1>
+		<h3>クラスCDをセット</h3>
+		<form th:action="@{/classSet}" method="POST">
+			<input type="text" name="cls" placeholder="クラス">
+			<input type="text" name="cd" placeholder="セットするCD">
+			<input type="submit" value="セット">
+		</form>
+		<h3>クラス検索</h3>
+		<form th:action="@{/classSetSer}" method="POST">
+			<input type="text" name="cls" placeholder="クラス">
+			<input type="submit" value="検索">
+		</form>
+		<p>↑１行のみ表示する場合はクラスの後に１を付ける　例)１A１</p>
+		<form th:action="@{/classlogout}" method="POST">
+			<input type="submit" value="通常画面へ">
+		</form>
+		<p th:text="${record + '件のレコードを取得しました。'}"></p>
+		<hr>
+		<table border="1" align="center" width="1200">
+		<tr>
+		<!-- 列名を指定 -->
+		<th>class</th>
+		<th>class_CD</th>
+		</tr>
+		<!-- クラスとクラスCDの表示 -->
+		<tr th:each="upd2 : ${kensakupra}">
+			<td><p th:text="${upd2.class}"></p></td>
+			<td><p th:text="${upd2.class_CD}"></p></td>
+		</tr>
+	</table>
+		<p></p>
+		<a href="./classSet">ページトップへ</a>
+	</th:block>
+	<!-- ここまで↑↑↑  -->
+	
+	<th:block th:if="${session.setUp == null}">
 	<!-- クラスを完全一致で検索するフォーム  -->
-	<h1>クラス検索</h1>
+	<h2>クラス検索</h2>
 	<form th:action="@{/classSer}" method="POST">
 		<input type="text" name="cls"  placeholder="クラス検索">
 		<input type="submit" value="検索">
 	</form>
 	<!-- 生徒を部分一致検索するフォーム  -->
-	<h1>生徒名検索</h1>
+	<h2>生徒名検索</h2>
 	<form th:action="@{/nameSer}" method="POST">
 		<input type="text" name="name"  placeholder="生徒名検索">
 		<input type="submit" value="検索">
 	</form>
 	<!-- 更新するクラスを入力するフォーム  -->
-	<h1>クラス更新</h1>
+	<h2>クラス更新</h2>
 	<form th:action="@{/classupd}" method="POST">
 		<input type="text" name="upd"  placeholder="更新したいクラス">
-		<input type="text" name="id1"  placeholder="最初の学籍番号">
-		<input type="text" name="id2"  placeholder="最後の学籍番号">
+		<input type="text" name="cd1"  placeholder="クラスCD">
 		<input type="submit" value="更新">
 	</form>
 	<!-- 更新するクラスを間違えたときに1学年下げる用のフォーム  -->
-	<h1>クラスを戻す</h1>
+	<h2>クラスを戻す</h2>
 	<form th:action="@{/classreturn}" method="POST">
 		<input type="text" name="returns"  placeholder="更新したいクラス">
-		<input type="text" name="id3"  placeholder="最初の学籍番号">
-		<input type="text" name="id4"  placeholder="最後の学籍番号">
+		<input type="text" name="cd2"  placeholder="クラスCD">
 		<input type="submit" value="戻す">
 	</form>
 	<th:block th:if="${class != null}">
@@ -60,6 +96,7 @@
 		<th>class</th>
 		<th>student_no</th>
 		<th>school</th>
+		<th>class_CD</th>
 		</tr>
 		<!-- 検索や更新処理の結果表示 -->
 		<tr th:each="upd : ${kensakupra}">
@@ -70,9 +107,13 @@
 			<td><p th:text="${upd.class}"></p></td>
 			<td><p th:text="${upd.student_no}"></p></td>
 			<td><p th:text="${upd.school}"></p></td>
+			<td><p th:text="${upd.class_CD}"></p></td>
 		</tr>
 		
 	</table>
+	<hr>
+	<a href="./classupd">ページトップへ</a>
+	</th:block>
 </body>
 
 </html>
