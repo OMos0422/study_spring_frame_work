@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>praentテーブル</title>
+<style>
+	table{
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<h3>検索結果</h3>
+	<table border="1">
+		<tr>
+			<th>主キー列①</th>
+			<th>列①</th>
+			<th>列②</th>
+		</tr>
+		<tr th:each="singledata : ${resultList}">
+			<td><p th:text="${singledata.keycol}"></p></td>
+			<td><p th:text="${singledata.optcol1}"></p></td>
+			<td><p th:text="${singledata.optcol2}"></p></td>
+		</tr>
+	</table>
+	<hr>
+	<h3>条件付き検索</h3>
+	<form th:action="@{/praentsearch}" method="POST">
+		主キーデータ<input type="text" name="keycol">
+		列①<input type="text" name="optcol1">
+		<input type="submit" value="検索">
+	</form>
+	
+	<hr>
+	<h3>登録＆更新</h3>
+	<form th:action="@{/praentinsupd}" method="POST">
+		主キーデータ<input type="text" name="keycol">
+		列1データ<input type="text" name="optcol1">
+		列2データ<input type="text" name="optcol2">
+		<input type="submit" value="検索">
+	</form>
+		
+	<hr>
+	<h3>削除</h3>
+	<form th:action="@{/praentdel}" method="POST">
+		主キーデータ<input type="text" name="keycol">
+		<input type="submit" value="検索">
+	</form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ログインページ</title>
+	<link rel="stylesheet" type="text/css" href="css/myshift.css">
+	<style>
+		#miss{
+			color:red;
+		}
+	</style>
+</head>
+
+<body>
+	<h3>従業員ログイン画面</h3>
+
+
+	<h4>＜従業員コードを入力してください＞</h4>
+	<form th:action="@{/shoplogin}" method="POST">
+		従業員コード<input type="text" name="formdata1" placeholder="従業員番号">
+		<input type="submit" value="ログイン">
+	</form>
+	<th:block th:if="${miss != null}">
+		<p id="miss" th:text="${miss}"></p>
+	</th:block>
+
+</body>
+
+</html>

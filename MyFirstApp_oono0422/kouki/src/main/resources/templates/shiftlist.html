@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>shiftlistテーブル</title>
+    <style>
+        table {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <p>shiftlistテーブルの中身↓</p>
+</body>
+<table border="1">
+    <tr>
+        <th>empname</th>
+        <th>workdate</th>
+        <th>starttime</th>
+        <th>endtime</th>
+        <th>jikyu</th>
+    </tr>
+    <tr th:each="shift : ${shiftlst}">
+        <td>
+            <p th:text="${shift.empname}"></p>
+        </td>
+        <td>
+            <p th:text="${shift.workdate}"></p>
+        </td>
+        <td>
+            <p th:text="${shift.starttime}"></p>
+        </td>
+        <td>
+            <p th:text="${shift.endtime}"></p>
+        </td>
+        <td>
+            <p th:text="${shift.jikyu}"></p>
+        </td>
+    </tr>
+</table>
+
+</html>

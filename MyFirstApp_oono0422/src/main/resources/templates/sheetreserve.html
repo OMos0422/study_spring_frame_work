@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>sheetreserve</title>
+<style>
+	table{
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<h3>検索結果</h3>
+	<table border="1">
+		<tr>
+			<th>予約番号</th>
+			<th>予約日</th>
+			<th>予約者名</th>
+		</tr>
+		<tr th:each="singledata : ${resultList}">
+			<td><p th:text="${singledata.yoyakubango}"></p></td>
+			<td><p th:text="${singledata.yoyakubi}"></p></td>
+			<td><p th:text="${singledata.yoyakuname}"></p></td>
+		</tr>
+	</table>
+	<hr>
+	<h3>条件付き検索</h3>
+	<form th:action="@{/sheetreservesearch}" method="POST">
+		予約番号<input type="text" name="yoyakubango">
+		予約日<input type="text" name="yoyakubi">
+		<input type="submit" value="検索">
+	</form>
+	
+	<hr>
+	<h3>登録＆更新</h3>
+	<form th:action="@{/sheetreserveinsupd}" method="POST">
+		予約番号<input type="text" name="yoyakubango">
+		予約日<input type="text" name="yoyakubi">
+		予約者名<input type="text" name="yoyakuname">
+		<input type="submit" value="更新">
+	</form>
+		
+	<hr>
+	<h3>削除</h3>
+	<form th:action="@{/sheetreservedel}" method="POST">
+		予約番号<input type="text" name="yoyakubango">
+		予約日<input type="text" name="yoyakubi">
+		予約者名<input type="text" name="yoyakuname">
+		<input type="submit" value="削除">
+	</form>
+</body>
+</html>

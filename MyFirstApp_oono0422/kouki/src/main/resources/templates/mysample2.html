@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>チェック画面</title>
+	<style>
+		#no {
+			color: red;
+		}
+
+		#ok {
+			color: blue;
+		}
+	</style>
+</head>
+
+<body>
+	<h2 th:text="${'ユーザー名：' + session.id}"></h2>
+	<p><a href="/logouts">ログアウト</a></p>
+	今日の教科↓
+	<hr>
+
+	<ul>
+		<li th:each="kamoku : ${list}">
+			<p th:text="${kamoku}"></p>
+		</li>
+	</ul>
+	持ち物↓
+	<hr>
+	<form th:action="@{/check}" method="POST">
+		<p th:each="need : ${list2}">
+			<input type="checkbox" th:text="${need}" name="need">
+		</p>
+		<input type="submit" value="チェック完了">
+	</form>
+	<hr>
+
+	<th:block th:if="${no != null}">
+		<p id="no" th:text="${no}"></p>
+	</th:block>
+
+	<th:block th:if="${ok != null}">
+		<div id="ok">
+			<p th:text="${ok}"></p>
+			<p>気を付けて登校してください</p>
+		</div>
+	</th:block>
+</body>
+
+</html>

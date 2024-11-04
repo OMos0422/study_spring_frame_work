@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>シフト一覧</title>
+	<link rel="stylesheet" type="text/css" href="css/myshift.css">
+	<style>
+		table{
+			text-align: center;
+		}
+		#week{
+			color: yellow;
+		}
+	</style>
+</head>
+
+<body>
+	<h2>ようこそ</h2>
+	
+		<p th:text="${session.name}"></p>
+	
+	<h2>さん</h2>
+	
+	<h3 id="week" th:text="${'今日は' + session.week + 'です'}"></h3>
+	<a href="/mymoney">給料確認画面へ　</a>
+	<a href="/logout">ログアウトする</a>
+	<hr>
+	<h3>シフト一覧画面</h3>
+		
+	<h5>応用問題</h5>
+	<table border="1">
+		<tr>
+			<th>従業員コード</th>
+			<th>勤務日</th>
+			<th>勤務開始時間</th>
+			<th>勤務終了時間</th>
+			<th>時給</th>
+		</tr>
+		
+		<tr th:each="singledata : ${shiftlist}">
+			<td><p th:text="${singledata.empname}"></p></td>
+			<td><p th:text="${singledata.workdate}"></p></td>
+			<td><p th:text="${singledata.starttime}"></p></td>
+			<td><p th:text="${singledata.endtime}"></p></td>
+			<td><p th:text="${singledata.jikyu}"></p></td>
+		</tr>
+		
+	</table>
+	
+	<hr>
+	<h4>シフト登録</h4>
+	<form th:action="@{/shiftlistadd}" method="POST">
+        従業員コード<input type="text" name="code">
+        勤務日<input type="date" name="day">
+        開始時間<input type="text" name="start">
+        終了時間<input type="text" name="end">
+        時給<input type="text" name="money">
+        <input type="submit" value="登録する">
+	</form>	
+	
+	<hr>
+	<h4>シフト更新</h4>
+	<form th:action="@{/shiftlistupd}" method="POST">
+        従業員コード（誰の？）<input type="text" name="code2">
+        勤務日（いつの？）<input type="date" name="day2">
+        時給（時給をこれにする！）<input type="text" name="money2">
+        <input type="submit" value="更新する">
+	</form>
+	
+	<hr>
+	<h4>シフト削除</h4>
+	<form th:action="@{/shiftlistdel}" method="POST">
+        従業員コード（誰の？）<input type="text" name="code3">
+        勤務日（この日のデータを消す）<input type="date" name="day3">
+        <input type="submit" value="削除する">
+	</form>		
+</body>
+
+</html>

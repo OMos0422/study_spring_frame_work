@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ポケトン亜種</title>
+	<style>
+		table {
+			text-align: center;
+		}
+		.no{
+			color:red;
+		}
+		.yes{
+			color: blue;
+		}
+		#draw{
+			color: green;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h2>ポケトン亜種</h2>
+	<details open>
+		<summary>ポケトン亜種の機能詳細</summary>
+	<ul>
+		<li>一番上のフォームはトレーナー名の入力欄</li>
+		<li>二番目は図鑑、捕獲、名前変更、バトル、お別れ機能</li>
+		<li>図鑑：捕獲したすべてのポケトンを確認</li>
+		<li>捕獲：自分で名前を決めた(空白不可)ポケトンをボールで捕獲</li>
+		<li>ボール：マスターボール(100％)、モンスターボール(30％)、スーパーボール(50％)、ハイパーボール(65％)</li>
+		<li>名前変更：変更したいポケトンのNo(全角数字不可)と変更後のポケトン名を指定する</li>
+		<li>バトル：捕獲済みのポケトン同士(Noで指定)を戦わせる(最終的なレベルの高い方が勝つ)</li>
+		<li>タイプ：炎←水←地面←草(矢印の左側にいるタイプに強い)</li>
+		<li>レベル：タイプ相性によってレベルが2倍になる</li>
+		<li>お別れ1(全角数字可)："はい"と入力するとすべてのポケトンとお別れする</li>
+		<li>お別れ2(全角数字可)： 選んだポケトンとお別れする</li>
+	</ul>
+	</details>
+	<th:block th:if="${session.tr_name != null}">
+	<h3 th:text="${'トレーナー名： ' + session.tr_name}"></h3>
+	</th:block>
+	<form th:action="@{/tr_name2}" method="POST">
+		<input type="text" name="name" placeholder="名前">
+		<input type="submit" value="決定">
+	</form>
+	<p></p>
+	<form th:action="@{/pocke2}" method="POST">
+		<input type="text" name="poc" placeholder="機能">
+		<input type="submit" value="遊ぶ">
+	</form>
+	<th:block th:if="${del1 != null}">
+	<p></p>
+	本当にお別れしますか？
+	<form th:action="@{/pockeDel3}" method="POST">
+		<input type="text" name="del1" placeholder="すべてのポケトンとお別れ">
+		<input type="submit" value="お別れ1">
+	</form>
+	</th:block>
+	<th:block th:if="${delete != null}">
+		<p class="no" th:text="${delete}"></p>
+	</th:block>
+	<th:block th:if="${nots != null}">
+		<p class="no" th:text="${nots}"></p>
+	</th:block>
+	
+	<th:block th:if="${error != null}">
+		<p class="no" th:text="${error}"></p>
+	</th:block>
+	
+	<th:block th:if="${del2 != null}">
+		<form th:action="@{/pockeDel4}" method="POST">
+			<p></p>
+			お別れするポケトンを選んでください<br>
+			<input type="text" name="del2" placeholder="ポケトンのNo">
+			<input type="submit" value="お別れ2">
+		</form>
+	</th:block>
+	
+	<th:block th:if="${battle != null}">
+		<form th:action="@{/battle2}" method="POST">
+			<p></p>
+			戦わせるポケトンを選んでください<br>
+			<input type="text" name="pocke1" placeholder="1体目のNo">
+			<input type="text" name="pocke2" placeholder="2体目のNo">
+			<input type="submit" value="battle">
+		</form>
+	</th:block>
+	
+	<th:block th:id="${nz != null}">
+		<p class="no" th:text="${nz}"></p>
+	</th:block>
+	
+	<th:block th:if="${winner != null}">
+		<p class="yes" th:text="${winner + 'です'}"></p>
+	</th:block>
+	
+	<th:block th:if="${draw != null}">
+		<p id="draw" th:text="${draw + 'です'}"></p>
+	</th:block>
+	
+	
+	<th:block th:if="${e != null}">
+		<p class="no" th:text="${e}"></p>
+	</th:block>
+	
+	<th:block th:if="${notexist != null}">
+		<p class="no" th:text="${notexist}"></p>
+	</th:block>
+	
+	<th:block th:if="${delete2 != null}">
+		<p class="yes" th:text="${delete2}"></p>
+	</th:block>
+	
+	<th:block th:if="${no2 != null}">
+		<p class="no" th:text="${no2}"></p>
+	</th:block>
+	
+	<th:block th:if="${session.catch != null}">
+	<p>捕獲するポケトンを入力しよう！</p>
+	<form th:action="@{/pocke2}" method="POST">
+		<input type="text" name="pockename" placeholder="ポケトン名">
+		<input type="submit" value="探索">
+	</form>
+	</th:block>
+	<th:block th:if="${session.name != '' && session.name != null}">
+	<table>
+		<tr>
+			<th>名前</th>
+			<th>タイプ</th>
+			<th>性別</th>
+			<th>レベル</th>
+		</tr>
+		<tr>
+			<td><p th:text="${session.name}"></p><td><p th:text="${session.type}"></p><td><p th:text="${session.seibetsu}"></p><td><p th:text="${session.level}"></p>
+		</tr>
+	</table>
+	が現れた
+	どのボールを使用しますか？
+	<p></p>
+	<form th:action="@{/catch2}" method="POST">
+		<input type="text" name="ball" placeholder="ボール">
+		<input type="hidden" name="ch"  value="catch">
+		<input type="submit" value="捕獲する">
+	</form>
+	</th:block>
+	
+	<th:block th:if="${nb != null}">
+		<p class="no" th:text="${nb}"></p>
+	</th:block>
+	
+	<th:block th:if="${miss != null}">
+		<p class="no" th:text="${miss}"></p>
+	</th:block>
+	
+	<th:block th:if="${ok != null}">
+		<p class="yes" th:text="${ok}"></p>
+	</th:block>
+	
+	<th:block th:if="${look != null}">
+	<p></p>
+	<table border="1">
+		<tr>
+			<th>No</th>
+			<th>名前</th>
+			<th>タイプ</th>
+			<th>性別</th>
+			<th>レベル</th>
+			<th>捕まえたボール</th>
+		</tr>
+		<tr th:each="zukan : ${list}">
+			<td><p th:text="${zukan.No}"></p></td>
+			<td><p th:text="${zukan.name}"></p></td>
+			<td><p th:text="${zukan.type}"></p></td>
+			<td><p th:text="${zukan.seibetsu}"></p></td>
+			<td><p th:text="${zukan.level}"></p></td>
+			<td><p th:text="${zukan.ball}"></p></td>
+		</tr>
+	</table>
+	</th:block>
+	
+	<th:block th:if="${rename != null}">
+		<form th:action="@{/rename2}" method="POST">
+			<input type="text" name="no" placeholder="ポケトンNo">
+			<input type="text" name="rn" placeholder="ポケトン名">
+			<input type="submit" value="変更">
+		</form>
+	</th:block>
+	
+	<th:block th:if="${suc != null}">
+		<p class="yes" th:text="${suc}"></p>
+	</th:block>
+	
+	<th:block th:if="${m != null}">
+		<p class="no" th:text="${m}"></p>
+	</th:block>
+	
+	<th:block th:if="${no != null && no != '図鑑'}">
+		<p class="no" th:text="${no}"></p>
+	</th:block>
+	
+</body>
+
+</html>

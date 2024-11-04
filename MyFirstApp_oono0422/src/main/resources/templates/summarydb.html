@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h4>夏休みが終わってしまったああ！！！切り替えて頑張ろう！！</h4>
+
+	<h4>覚えてる?DB編①</h4>
+	
+	<table>
+		<tr>
+            <th>データ１</th>
+            <th>データ２</th>
+        </tr>
+        <tr th:each="singledata:${kensakukekka}">
+            <td><p th:text=${singledata.column1}></p></td>
+            <td><p th:text=${singledata.column2}></p></td>
+        </tr>
+        
+	</table>
+	
+	<h4>覚えてる?DB編③</h4>
+	<form th:action="@{/summarydb}" method="POST">
+		データ1<input type="text" name="inputData1">
+		データ2<input type="text" name="inputData2">
+		<input type="submit" value="登録する">
+	</form>
+</body>
+</html>

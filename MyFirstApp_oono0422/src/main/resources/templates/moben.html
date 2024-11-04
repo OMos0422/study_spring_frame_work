@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>mobenテーブル</title>
+<style>
+	table{
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+<p>mobenテーブルの中身↓</p>
+<table border="1">
+	<tr>
+		<th>mobid</th>
+		<th>mobname</th>
+		<th>mobpass</th>
+	</tr>
+	<tr th:each="moben : ${mob}">
+		<td><p th:text="${moben.mobid}"></p></td>
+		<td><p th:text="${moben.mobname}"></p></td>
+		<td><p th:text="${moben.mobpass}"></p></td>
+	</tr>
+</table>
+</body>
+</html>

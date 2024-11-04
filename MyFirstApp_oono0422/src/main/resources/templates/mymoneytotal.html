@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>税金計算後画面</title>
+	<link rel="stylesheet" type="text/css" href="css/myshift.css">
+	<style>
+		table{
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+		<h1>＜税金計算後＞</h1>
+		<h2 th:text="${'ユーザー名：' + session.name}"></h2>
+	
+	<table border="1">
+		<tr>
+			<th>従業員コード</th>
+			<th>給与合計(額面)</th>
+			<th>手取り給与</th>
+		</tr>
+		
+		<tr th:each="singledata : ${shiftlist}">
+			<td><p th:text="${singledata.empname}"></p></td>
+			<td><p th:text="${singledata.money}"></p></td>
+			<td><p th:text="${singledata.tedori}"></p></td>
+		</tr>
+		
+	</table>
+	
+	<hr>
+	<a href="/shiftlist">シフト一覧へ　</a>
+	<a href="/mymoney">税金計算前画面へ　</a>
+	<a href="/logout">ログアウトする</a>
+
+</body>
+
+</html>

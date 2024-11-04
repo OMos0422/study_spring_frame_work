@@ -66,9 +66,9 @@ public class MyDbM_userController {
 
 	@RequestMapping(path = "/classSetSer", method = RequestMethod.POST)
 	public String dbfg10(Model model, String cls) {
-		//検索処理
-
-		List<Map<String, Object>> kensakukekka;
+		//クラスが存在するか確認する処理↓
+		List<Map<String, Object>> kensakukekka = jdbcTemplate.queryForList("SELECT class FROM m_user WHERE class = ?",
+				cls);
 		//1行のみ表示させる場合 例)１A１↓
 		if (cls.length() == 3 && "1".equals(cls.substring(2, 3))) {
 			String cls2 = cls.substring(0, 2);
@@ -76,6 +76,9 @@ public class MyDbM_userController {
 			model.addAttribute("record", kensakukekka.size());
 			model.addAttribute("kensakupra", kensakukekka);
 			return "mydbm_user";
+			//存在しないクラスを検索した場合や空白が入ってきた時の処理↓
+		} else if (kensakukekka.size() == 0 || "".equals(cls) || cls == null) {
+			return "redirect:/classSet";
 		}
 		kensakukekka = jdbcTemplate
 				.queryForList("SELECT class,class_CD FROM m_user WHERE class = ?", cls);

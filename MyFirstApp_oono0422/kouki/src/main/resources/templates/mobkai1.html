@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <title>Mobkai</title>
+</head>
+
+<body>
+    <h1>Mobkai</h1>
+    <form th:action="@{/mobkai1}" method="post">
+        <input type="text" name="mob" placeholder="メンバー名">
+        <input type="submit" value="送信">
+    </form>
+    <th:block th:if="${mobkai != null}">
+        <table border="1">
+            <tr>
+                <th>member</th>
+                <th>profile</th>
+            </tr>
+            <tr th:each="mobkai : ${mobkai}">
+                <td>
+                    <p th:text="${mobkai.member}"></p>
+                </td>
+                <td>
+                    <p th:text="${mobkai.profile}"></p>
+                </td>
+            </tr>
+        </table>
+        <th:block th:if="${litle != null}">
+            <p th:text="${litle}"></p>
+        </th:block>
+    </th:block>
+</body>
+
+</html>

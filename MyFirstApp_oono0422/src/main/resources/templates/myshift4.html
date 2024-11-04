@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>shiftlistcustom</title>
+</head>
+
+<body>
+	<h1>検索条件</h1>
+	<h3>※このページに遷移する度、設定した検索条件はリセットされます</h3>
+	<th:block th:if="${session.column != null}">
+	<h3 th:text="${'現在の条件は' + '「' + session.column + '」' + 'です。'}"></h3>		
+	</th:block>
+	
+<form th:action="@{/renshiftlistcustom}" method="POST">
+	条件設定<input type="text" name="custom">
+	<input type="submit" value="カスタム">
+</form>
+<p></p>
+<a href="/renshiftlist">shiftlistへ</a>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+    <link rel="stylesheet" href="/css/mysecond.css">
+    <style>
+        #miss {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ログイン</h1>
+    <form th:action="@{/userLogin}" method="POST">
+        ID:<input type="text" name="id"><br>
+        パスワード:<input type="text" name="pass"><br>
+        <input type="submit" value="ログイン">
+    </form>
+    <th:block th:if="${miss != null}">
+        <p id="miss" th:text="${miss}"></p>
+    </th:block>
+</body>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>shiftlist</title>
+	<style>
+		table{
+			text-align: center;
+		}
+		#s{
+			color: blue;
+		}
+		#e{
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<h3>シフト一覧画面</h3>
+		
+	<h5>応用問題</h5>
+	<table border="1">
+		<tr>
+			<th>従業員コード</th>
+			<th>勤務日</th>
+			<th>勤務開始時間</th>
+			<th>勤務終了時間</th>
+			<th>時給</th>
+		</tr>
+		<tr th:each="singledata : ${shiftlist}">
+			<td><p th:text="${singledata.empname}"></p></td>
+			<td><p th:text="${singledata.workdate}"></p></td>
+			<td><p th:text="${singledata.starttime}"></p></td>
+			<td><p th:text="${singledata.endtime}"></p></td>
+			<td><p th:text="${singledata.jikyu}"></p></td>
+			
+		</tr>
+		
+	</table>
+	<hr>
+	<th:block th:if="${session.li == 0 || session.li == null}">
+		<p id="e">検索条件が設定されていません</p>
+	</th:block>
+	<th:block th:if="${session.li >= 1}">
+		<p id="s" th:text="${'現在の検索条件は「' + session.column + '」です'}"></p>
+	</th:block>
+	<h4>条件付き検索</h4>
+	<form th:action="@{/renshiftsearch}" method="POST">
+       	条件検索<input type="text" name="j">
+        <input type="submit" value="検索">
+	</form>
+	<hr>
+	<h4>シフト登録・更新</h4>
+	<form th:action="@{/renshiftaddupd}" method="POST">
+        従業員コード<input type="text" name="code">
+        勤務日<input type="text" name="date">
+        開始時間<input type="text" name="start">
+        終了時間<input type="text" name="end">
+        時給<input type="text" name="money">
+        <input type="submit" value="更新する">
+	</form>
+	
+	<hr>
+	<h4>シフト削除</h4>
+	<form th:action="@{/renshiftdel}" method="POST">
+        従業員コード（誰の？）<input type="text" name="code3">
+        勤務日<input type="text" name="date3">
+        <input type="submit" value="削除する">
+	</form>		
+</body>
+<hr>
+<a href="/renshiftlistcustom">shiftlistcustomへ</a>
+</html>

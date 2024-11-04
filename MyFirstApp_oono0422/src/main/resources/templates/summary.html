@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="css/summary.css">
+<script type="text/javascript" src="js/summary.js"></script>
+</head>
+<body>
+	<h4>夏休みが終わってしまったああ！！！切り替えて頑張ろう！！</h4>
+
+	<h4>覚えてる?④：modelの復習</h4>
+	modelに格納したデータは↓
+	<p th:text="${modeldata}"></p>
+	
+	
+	
+	<h4>覚えてる?⑤：sessionの復習</h4>
+	sessionに格納したデータは↓
+	<p th:text="${session.sessiondata}"></p>
+	
+	
+	<h4>覚えてる?⑥ formタグの復習</h4>
+	<form th:action="@{/summary}" method="POST">
+        データ1<input type="text" name="formdata1">
+        データ2<input type="text" name="formdata2">
+        <input type="submit" value="登録する">
+	</form>
+	
+	<h4>覚えてる?⑨ form&model組みあわせの復習</h4>
+	controllerでmodelに格納したデータは↓
+	<p th:text="${oboe7}"></p>
+	
+	
+</body>
+</html>

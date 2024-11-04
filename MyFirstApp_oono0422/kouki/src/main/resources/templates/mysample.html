@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ログインページ</title>
+	<style>
+		#miss{
+			color:red;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>ログイン画面</h1>
+	
+	<form th:action="@{/kanri}" method="POST">
+		<input type="password" name="id" placeholder="ログインID"><br>
+		<input type="password" name="pass" placeholder="パスワード"><br>
+		<input type="submit" value="ログイン">
+	</form>
+	
+	<th:block th:if="${miss != null}">
+		<p id="miss" th:text="${miss}"></p>
+	</th:block>
+	
+</body>
+
+</html>
